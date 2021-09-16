@@ -1,0 +1,24 @@
+{%  extends 'master.html' %}
+
+{%  block content %}
+    <div class="list-group">
+        <h1>Number of Comments: {{komentari.count}}</h1>
+        <h1>Ukupan broj lajkova: {{lajkovi}}</h1>
+        <br/>
+        <h1>Most popular comment:</h1>
+        <div class="border">
+            <h1>Author: {{maxKomentar.author}}</h1>
+            <h2>Comment: {{maxKomentar.content}}</h2>
+            <h3>Likes: {{maxKomentar.likes}}</h3>
+            </div>
+        <br/>
+        <h1>Vest sa najvise komentara: </h1>
+        <div class="border">
+            <h1>{{ vest.title }}</h1>
+            <p>{{vest.content}}</p>
+            <h2>Views: {{vest.count}}</h2>
+            <h3>Category: {{vest.category}}</h3>
+            <h4>Datum: {{vest.date}}</h4>
+        </div>
+    </div>
+{% endblock %}

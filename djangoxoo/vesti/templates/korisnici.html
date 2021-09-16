@@ -1,0 +1,18 @@
+{%  extends 'master.html' %}
+
+{%  block content %}
+    <div class="list-group">
+        <h1>Number of Users: {{korisnici.count}}</h1>
+        <h1>Admins: {{admins}}</h1>
+        <h1>Content Creators: {{creators}}</h1>
+        <h1>Guests: {{guests}}</h1>
+        {% for korisnik in korisnici %}
+        <div class="border">
+            <h1>email: {{korisnik.email}}</h1>
+            <h2>name: {{korisnik.name}}</h2>
+            <h3>surname: {{korisnik.surname}}</h3>
+            <h4>role: {{korisnik.tip}}</h4>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

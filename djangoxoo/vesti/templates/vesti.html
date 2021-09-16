@@ -1,0 +1,56 @@
+{%  extends 'master.html' %}
+
+{%  block content %}
+    <h1>Ukupno vesti: {{vesti.count}}</h1>
+    <br/>
+    <h2>Broj pregleda: {{x}}</h2>
+    <br/>
+    <form action="{% url 'my_app:vesti' %}">
+        <div class="input-group mb-3">
+            <input name = "q" type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary">Search</button>
+            </div>
+        </div>
+    </form>
+    <br/>
+    <div class="btn-group" role="group" aria-label="FilterButtons">
+    <form action="{% url 'my_app:vesti' %}" method="get">
+        <button class="btn btn-outline-secondary" name="sort" value="sort" type="submit">OrderByViews</button>
+    </form>
+    <form action="{% url 'my_app:vesti' %}" method="get">
+        <button class="btn btn-outline-secondary" name="date" value="date" type="submit">OrderByDate</button>
+    </form>
+    </div>
+    <br/>
+    <div class="btn-group" role="group" aria-label="CategoryButtons">
+        {% for kategorija in kategorije %}
+        <form action="{% url 'my_app:vesti' %}" method="get">
+            <button class="btn btn-outline-secondary" name="kategorija" value="{{kategorija}}" type="submit">
+                {{kategorija}}</button>
+        </form>
+        {% endfor %}
+    </div>
+
+    <div class="list-group">
+        {% for vest in vesti %}
+        <div class="border">
+            <h1>{{ vest.title }}</h1>
+            <p>{{vest.content}}</p>
+            <h2>Views: {{vest.count}}</h2>
+            <h3>Category: {{vest.category}}</h3>
+            {% with u=1 %}
+            <h3>Comments: {{komentari.u}}</h3>
+            {% endwith %}
+            <h4>Date Created: {{vest.date}}</h4>
+        </div>
+        {% endfor %}
+    </div>
+    <br/>
+    {% if vesti.has_previous %}
+    <a href="{% url 'my_app:vesti' %}?page={{vesti.previous_page_number}}">Previous Page</a>
+    {% endif %}
+    {% if vesti.has_next %}
+    <a href="{% url 'my_app:vesti' %}?page={{vesti.next_page_number}}">Next Page</a>
+    {% endif %}
+{% endblock %}
