@@ -6,6 +6,39 @@
         <h1>Admins: {{admins}}</h1>
         <h1>Content Creators: {{creators}}</h1>
         <h1>Guests: {{guests}}</h1>
+        <br/>
+
+    <form action="{% url 'my_app:korisnici' %}">
+        <div class="input-group mb-3">
+            <input name = "name" type="text" class="form-control" placeholder="Search Name" aria-label="Search Name" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary">Search</button>
+            </div>
+        </div>
+    </form>
+        <br/>
+        <br/>
+
+    <form action="{% url 'my_app:korisnici' %}">
+        <div class="input-group mb-3">
+            <input name = "surname" type="text" class="form-control" placeholder="Search Surname" aria-label="Search Surname" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary">Search</button>
+            </div>
+        </div>
+    </form>
+        <br/>
+        <br/>
+
+    <form action="{% url 'my_app:korisnici' %}">
+        <div class="input-group mb-3">
+            <input name = "type" type="text" class="form-control" placeholder="Search type" aria-label="Search type" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary">Search</button>
+            </div>
+        </div>
+    </form>
+        <br/>
         {% for korisnik in korisnici %}
         <div class="border">
             <h1>email: {{korisnik.email}}</h1>

@@ -1,21 +1,31 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Vesti, Korisnici, Komentari, Cookies
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def index(request, x=0):
     tmp = Vesti.objects.all()
     if 'q' in request.GET:
-        q=request.GET['q']
+        q = request.GET['q']
         tmp = Vesti.objects.filter(content__icontains=q) | Vesti.objects.filter(title__icontains=q)
 
-    elif request.GET.get('date'):
-        tmp = Vesti.objects.all().order_by('date')
+    elif 'date' in request.GET:
+        #request.GET.get('date')
+        order = request.GET['date']
+        if order == 'ASC':
+            tmp = Vesti.objects.all().order_by('date')
+        elif order == 'DSC':
+            tmp = Vesti.objects.all().order_by('-date')
 
-    elif request.GET.get('sort'):
-        tmp = Vesti.objects.all().order_by('count')
+    elif 'sort' in request.GET:
+        #request.GET.get('sort')
+        order = request.GET['sort']
+        if order == 'ASC':
+            tmp = Vesti.objects.all().order_by('count')
+        elif order == 'DSC':
+            tmp = Vesti.objects.all().order_by('-count')
 
-    elif request.GET.get('kategorija'):
+    elif 'kategorija' in request.GET:
+        request.GET.get('kategorija')
         kategorija = request.GET['kategorija']
         tmp = Vesti.objects.filter(category=kategorija)
 
@@ -41,19 +51,23 @@ def index(request, x=0):
             if komentar.news == vest.id:
                 g[vest.id] += 1
 
-    p = Paginator(tmp, 3)
-    page_num = request.GET.get('page', 1)
-    print(p.num_pages)
-    try:
-        page = p.page(page_num)
-    except (EmptyPage, PageNotAnInteger):
-        #page = p.page(1)
-        return render(request, '404.html')
-
-    return render(request, 'vesti.html', {'vesti':page, 'x':x, 'kategorije':f, 'komentari':g})
+    return render(request, 'vesti.html', {'vesti':tmp, 'x':x, 'kategorije':f, 'komentari':g})
 
 def korisnici(request):
     tmp = Korisnici.objects.all()
+
+    if 'name' in request.GET:
+        name = request.GET['name']
+        tmp = Korisnici.objects.filter(name__icontains=name)
+
+    elif 'surname' in request.GET:
+        surname = request.GET['surname']
+        tmp = Korisnici.objects.filter(surname__icontains=surname)
+
+    elif 'type' in request.GET:
+        type = request.GET['type']
+        tmp = Korisnici.objects.filter(tip__icontains=type)
+
     admins = 0
     creators = 0
     for korisnik in Korisnici.objects.all():
@@ -103,7 +117,8 @@ def komentari(request):
 
     n = Vesti.objects.get(id=max_key)
 
-    return render(request, 'komentari.html', {'komentari':tmp,'lajkovi':lajkovi,'maxKomentar':maxKomentar,'vest':n})
+    return render(request, 'komentari.html', {'komentari':tmp,'lajkovi':lajkovi,'maxKomentar':maxKomentar,
+                                              'brKomentara':max_value, 'vest':n})
 
 def broj(request,br):
     return HttpResponse('Broj: ' + str(br))

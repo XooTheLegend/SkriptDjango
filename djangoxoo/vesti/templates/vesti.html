@@ -16,10 +16,12 @@
     <br/>
     <div class="btn-group" role="group" aria-label="FilterButtons">
     <form action="{% url 'my_app:vesti' %}" method="get">
-        <button class="btn btn-outline-secondary" name="sort" value="sort" type="submit">OrderByViews</button>
+        <button class="btn btn-outline-secondary" name="sort" value="ASC" type="submit">OrderViewsASC</button>
+        <button class="btn btn-outline-secondary" name="sort" value="DSC" type="submit">OrderViewsDSC</button>
     </form>
     <form action="{% url 'my_app:vesti' %}" method="get">
-        <button class="btn btn-outline-secondary" name="date" value="date" type="submit">OrderByDate</button>
+        <button class="btn btn-outline-secondary" name="date" value="ASC" type="submit">OrderDateASC</button>
+        <button class="btn btn-outline-secondary" name="date" value="DSC" type="submit">OrderDateDSC</button>
     </form>
     </div>
     <br/>
@@ -39,18 +41,10 @@
             <p>{{vest.content}}</p>
             <h2>Views: {{vest.count}}</h2>
             <h3>Category: {{vest.category}}</h3>
-            {% with u=1 %}
-            <h3>Comments: {{komentari.u}}</h3>
-            {% endwith %}
             <h4>Date Created: {{vest.date}}</h4>
         </div>
         {% endfor %}
     </div>
     <br/>
-    {% if vesti.has_previous %}
-    <a href="{% url 'my_app:vesti' %}?page={{vesti.previous_page_number}}">Previous Page</a>
-    {% endif %}
-    {% if vesti.has_next %}
-    <a href="{% url 'my_app:vesti' %}?page={{vesti.next_page_number}}">Next Page</a>
-    {% endif %}
+
 {% endblock %}
